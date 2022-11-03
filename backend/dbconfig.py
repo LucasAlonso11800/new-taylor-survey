@@ -6,7 +6,7 @@ password = getenv('MYSQL_PASSWORD')
 host = getenv('MYSQL_HOST')
 port = getenv('MYSQL_PORT')
 
-engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/taylor-survey")
+engine = create_engine(f"mysql+pymysql://{user}:{password}@{host}:{port}/taylor_survey")
 
 meta = MetaData()
 
