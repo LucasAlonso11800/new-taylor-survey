@@ -1,12 +1,12 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv
+from dbconfig import conn
+from models import questions_sets, questions, options, answers
 
 app = FastAPI()
-load_dotenv()
 
 @app.get('/')
 def works():
-    return "Yes"
+    return conn.execute(questions_sets.select()).fetchall()
 
 # Get question set with questions and their options
 # Insert answer
