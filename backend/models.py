@@ -1,27 +1,30 @@
-from sqlalchemy import Table, Column, ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, String
-from dbconfig import meta
+from dbconfig import Base
+from sqlalchemy import Column, ForeignKey, Integer, String
 
-questions_sets = Table("questions_set", meta,
-                Column("question_set_id", Integer, primary_key=True),
-                Column("question_set_title", String(45)),
-                Column("question_set_order", Integer, unique=True)
-                )
+class QuestionSet(Base):
+    __tablename__ = "questions_set"
 
-questions = Table("questions", meta,
-            Column("question_id", Integer, primary_key=True),
-            Column("question_text", String(100)),
-            Column("question_set_id", Integer, ForeignKey("questions_set.question_set_id"))
-            )
+    question_set_id = Column(Integer, primary_key=True, index=True)
+    question_set_title = Column(String, unique=True, index=True)
+    question_set_order = Column(Integer, unique=True, index=True)
 
+class Question(Base):
+    __tablename__ = "questions"
 
-options = Table("options", meta,
-            Column("option_id", Integer, primary_key=True),
-            Column("option_text", String(100)),
-            Column("question_id", Integer, ForeignKey("questions.question_id"))
-            )
+    question_id = Column(Integer, primary_key=True, index=True)
+    question_text = Column(String)
+    question_question_set_id = Column(Integer, ForeignKey("questions_set.question_set_id"))
 
-answers = Table("answers", meta,
-            Column("answer_id", Integer, primary_key=True),
-            Column("option_id", Integer, ForeignKey("options.option_id"))
-            )
+class Option(Base):
+    __tablename__ = "options"
+
+    option_id = Column(Integer, primary_key=True, index=True)
+    option_text = Column(String)
+    option_question_set_id = Column(Integer, ForeignKey("questions_set.question_set_id"))
+
+class Answer(Base):
+    __tablename__ = "answers"
+    
+    answer_id = Column(Integer, primary_key=True, index=True)
+    answer_option_id = Column(Integer, ForeignKey("options.option_id"))
+    answer_question_id = Column(Integer, ForeignKey("questions.question_id"))

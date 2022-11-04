@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class QuestionSet(BaseModel):
@@ -8,13 +9,14 @@ class QuestionSet(BaseModel):
 class Question(BaseModel):
     question_id: int
     question_text: str
-    question_set_id: int
+    question_question_set_id: int
 
 class Option(BaseModel):
     option_id: int
     option_text: str
-    question_id: int
+    option_question_set_id: int
 
 class Answer(BaseModel):
-    answer_id: int
-    option_id: int
+    answer_id: Optional[int]
+    answer_option_id: int
+    answer_question_id: int
