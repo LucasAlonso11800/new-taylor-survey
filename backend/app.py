@@ -52,3 +52,32 @@ def insert_answer(answer: schemas.Answer, db: Session = Depends(get_db)):
         return { "error": False, "message": "" }
 
 # Get answer count for options in a question in a question set
+@app.get('/answer')
+def get_answers(db: Session = Depends(get_db)):
+    questionSet = db.query(models.QuestionSet).order_by(models.QuestionSet.question_set_order).all()
+    questions = db.query(models.Question).all()
+    options = db.query(models.Option).all()
+    answers = db.query(models.Answer).all()
+
+    response = {}
+
+    for set in questionSet:
+        setData = {}
+        for question in questions:
+            if question.question_question_set_id != set.question_set_id:
+                continue
+            
+            questionData = {}
+            for option in options:
+                if option.option_question_set_id != set.question_set_id:
+                    continue
+
+                questionData[option.option_text] = 0
+                for answer in answers:
+                    if answer.answer_option_id == option.option_id and answer.answer_question_id == question.question_id:
+                        questionData[option.option_text] += 1
+
+            setData[question.question_text] = questionData
+        response[set.question_set_title] = setData
+    
+    return { "error": False, "message": "", "data": { "answers": response } }
