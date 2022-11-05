@@ -9,7 +9,6 @@ class QuestionSet(BaseModel):
 class Question(BaseModel):
     question_id: int
     question_text: str
-    question_question_set_id: int
 
 class Option(BaseModel):
     option_id: int
