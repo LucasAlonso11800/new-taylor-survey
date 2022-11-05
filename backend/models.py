@@ -9,15 +9,11 @@ class QuestionSet(Base):
     question_set_title = Column(String, unique=True, index=True)
     question_set_order = Column(Integer, unique=True, index=True)
 
-    questions = relationship("Question")
-    options = relationship("Option")
-
 class Question(Base):
     __tablename__ = "questions"
 
     question_id = Column(Integer, primary_key=True, index=True)
     question_text = Column(String)
-    question_question_set_id = Column(Integer, ForeignKey("questions_set.question_set_id"))
     
 class Option(Base):
     __tablename__ = "options"

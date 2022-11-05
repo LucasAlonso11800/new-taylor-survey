@@ -20,9 +20,8 @@ def get_question_set(order: int, db: Session = Depends(get_db)):
     if questionSet is None:
         return { "error": True, "message": "Question set not found" }
 
-    questions = db.query(models.Question.question_id, models.Question.question_text)\
-                    .where(models.Question.question_id == models.QuestionSet.question_set_id)\
-                    .all()
+    questions = db.query(models.Question.question_id, models.Question.question_text).all()
+
     options = db.query(models.Option.option_id, models.Option.option_text)\
                 .where(models.Option.option_question_set_id == models.QuestionSet.question_set_id)\
                 .all()
@@ -64,9 +63,6 @@ def get_answers(db: Session = Depends(get_db)):
     for set in questionSet:
         setData = {}
         for question in questions:
-            if question.question_question_set_id != set.question_set_id:
-                continue
-            
             questionData = {}
             for option in options:
                 if option.option_question_set_id != set.question_set_id:
@@ -74,7 +70,8 @@ def get_answers(db: Session = Depends(get_db)):
 
                 questionData[option.option_text] = 0
                 for answer in answers:
-                    if answer.answer_option_id == option.option_id and answer.answer_question_id == question.question_id:
+                    if answer.answer_option_id == option.option_id and\
+                        answer.answer_question_id == question.question_id:
                         questionData[option.option_text] += 1
 
             setData[question.question_text] = questionData
