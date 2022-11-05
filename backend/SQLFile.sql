@@ -12,11 +12,8 @@ CREATE TABLE IF NOT EXISTS `questions_set` (
 CREATE TABLE IF NOT EXISTS `questions` (
   `question_id` int unsigned NOT NULL AUTO_INCREMENT,
   `question_text` varchar(100) NOT NULL,
-  `question_question_set_id` int unsigned NOT NULL,
   PRIMARY KEY (`question_id`),
-  UNIQUE KEY `question_id_UNIQUE` (`question_id`),
-  KEY `question_set_id_idx` (`question_question_set_id`),
-  CONSTRAINT `question_set_id` FOREIGN KEY (`question_question_set_id`) REFERENCES `questions_set` (`question_set_id`) ON DELETE CASCADE
+  UNIQUE KEY `question_id_UNIQUE` (`question_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `options` (
