@@ -27,7 +27,6 @@ def get_db():
 # Get question set with questions and their options
 @app.get('/question-set/{order}')
 def get_question_set(order: int, db: Session = Depends(get_db)):
-    print(order)
     questionSet = db.query(models.QuestionSet).where(models.QuestionSet.question_set_order == order).first()
     if questionSet is None:
         return { "error": True, "message": "Question set not found" }
@@ -35,7 +34,7 @@ def get_question_set(order: int, db: Session = Depends(get_db)):
     questions = db.query(models.Question.question_id, models.Question.question_text).all()
 
     options = db.query(models.Option.option_id, models.Option.option_text)\
-                .where(models.Option.option_question_set_id == models.QuestionSet.question_set_id)\
+                .where(models.Option.option_question_set_id == order)\
                 .all()
 
     return { "error": False, 
