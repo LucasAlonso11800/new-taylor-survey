@@ -1,7 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar app class="red darken-3 white--text">
-        <h3 class="text-center">Taylor Swift Survey</h3>
+    <v-app-bar app class="red darken-3 white--text justify-between">
+        <h3 class="grow">Taylor Swift Survey</h3>
+        <nuxt-link class="text-decoration-none white--text" to="/answers">
+            Answers
+        </nuxt-link>
     </v-app-bar>
     <v-main>
         <v-container fluid class="pink lighten-4 full-height">

@@ -9,16 +9,20 @@
                     <v-form>
                         <v-select 
                             v-for="question in questions" 
+                            :key="question.question_id"
                             v-model="formData[question.question_id]"
-                            :label="question.question_text"
                             item-text="option_text" 
                             item-value="option_id" 
                             :items="options" 
-                        />
+                        >
+                        <template v-slot:label>
+                            <label class="body-1">{{question.question_text}}</label>
+                        </template>
+                    </v-select>
                     </v-form>
                 </v-card-body>
                 <v-card-actions class="justify-center">
-                    <v-btn class="px-8 py-4" @click="handleSubmit">Submit</v-btn>
+                    <v-btn class="px-8 py-4 success" @click="handleSubmit">Submit</v-btn>
                 </v-card-actions>
             </v-card>
         </v-col>
